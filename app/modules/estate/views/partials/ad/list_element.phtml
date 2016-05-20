@@ -1,0 +1,23 @@
+<?php
+	$clean_title = str_replace('"', '', $this->title);
+?>
+<div class="estate_ad">
+	<?php
+		$img_width = 122;
+		$img_heigh = (int) ceil($img_width * 0.75);
+		$img_src = "/file/media/{$this->primary_id}/$img_width/$img_heigh?name={$this->primary_name}&sum={$this->primary_md5}";
+		echo "<img src=\"$img_src\" width=\"$img_width\" height=\"$img_heigh\" alt=\"$clean_title\"/>";
+	?>
+	<h4><a href="/estate/ad/detail/id/<?php echo $this->id?>" title="<?php echo $clean_title ?>"><?php echo $this->title ?></a></h4>
+	<p class="ad_date"><?php echo preg_replace('/^([0-9]{4})-([0-9]{2})-([0-9]{2}).*$/', '$3/$2$1', $this->date) ?></p>
+	<p class="ad_type"><?php echo $this->type ?></p>
+	<p class="ad_preview"><?php
+		$this->text = strip_tags($this->text);
+		$this->text = Ape_Filter_TextTokenizer::filter($this->text, 96);
+		echo $this->text . ' <span class="correct_lineheight">&gt;&gt;</span>';
+	?></p>
+	<?php if (!empty($this->price)):?>
+	<p class="ad_price">&euro; <?php echo $this->price ?></p>
+	<?php endif; ?>
+</div>
+

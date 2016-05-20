@@ -1,0 +1,31 @@
+
+<?php if ($this->pageCount > 1): ?>
+<div class="estate_pagination_controls">
+
+	<?php if (isset($this->previous)): ?>
+		<a class="cmd cmd-prev" href="<?php echo $this->url(array('page' => $this->previous)) . (empty($_SERVER['QUERY_STRING']) ? '' : '?'.$_SERVER['QUERY_STRING']); ?>">&laquo;</a>
+	<?php else: ?>
+		<span class="cmd cmd-prev">&laquo;</span>
+	<?php endif; ?>
+
+	<?php
+		foreach ($this->pagesInRange as $page)
+		{
+			if ($page == $this->current) echo "<span class=\"item\">$page</span>";
+			else {
+				$url = $this->url(array('page' => $page)) . (empty($_SERVER['QUERY_STRING']) ? '' : '?'.$_SERVER['QUERY_STRING']);
+				echo "<a href=\"$url\">$page</a>";
+			}
+			if ($page != $this->last) echo '<span class="separator"> | </span>';
+		}
+	?>
+
+	<?php if (isset($this->next)): ?>
+		<a class="cmd cmd-next" href="<?php echo $this->url(array('page' => $this->next)) . (empty($_SERVER['QUERY_STRING']) ? '' : '?'.$_SERVER['QUERY_STRING']); ?>">&raquo;</a>
+	<?php else: ?>
+		<span class="cmd cmd-next">&raquo;</span>
+	<?php endif; ?>
+
+</div>
+<?php endif; ?>
+

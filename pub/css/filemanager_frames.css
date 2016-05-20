@@ -1,0 +1,132 @@
+
+#filemanager_window_frame {
+    border-collapse: collapse;
+    height: 100%;
+    width: 100%;
+}
+
+#filemanager_window_frame * {
+    font-family: 'LatinModernSans10Regular';
+}
+
+#filemanager_window_frame .title_row {
+    height: 30px;
+}
+
+#filemanager_window_frame .title_row td {
+    background-color: #DAEAF0;
+    padding: 5px 10px;
+}
+
+#filemanager_window_frame .title_row td h1 {}
+
+#filemanager_window_frame .content_row {
+    background-color: white;
+    vertical-align: top;
+}
+
+#filemanager_window_frame .content_row td {
+    padding: 5px 10px;
+}
+
+#filemanager_directories_list_frame {
+    overflow: hidden;
+    width: 30%;
+}
+
+#filemanager_directories_list_frame h2 {}
+
+#filemanager_directories_list_frame .directory_list_element  {
+    background-image: url("/pub/img/ico/folder-blue_open.png");
+    background-position: left center;
+    background-repeat: no-repeat;
+    display: block;
+    font-size: 13px;
+    height: 22px;
+    line-height: 22px;
+    overflow: hidden;
+    padding-left: 30px;
+    text-decoration: none;
+}
+
+#filemanager_functions_frame {}
+
+#filemanager_files_list_frame {
+	width: 70%;
+}
+
+#filemanager_files_list_frame h2 {}
+
+#filemanager_files_list_frame .file_list_element {
+    background-position: left center;
+    background-repeat: no-repeat;
+    cursor: pointer;
+    display: block;
+    font-size: 13px;
+    height: 22px;
+    line-height: 22px;
+    overflow: hidden;
+    padding-left: 30px;
+    text-decoration: none;
+}
+
+#filemanager_files_list_frame .file_list_element.mime-pdf {background-image: url("/pub/img/ico/application-pdf.png");}
+#filemanager_files_list_frame .file_list_element.mime-document {background-image: url("/pub/img/ico/application-x-abiword.png");}
+#filemanager_files_list_frame .file_list_element.mime-image {background-image: url("/pub/img/ico/image-x-generic.png");}
+#filemanager_files_list_frame .file_list_element.mime-zip {background-image: url("/pub/img/ico/package-x-generic.png");}
+#filemanager_files_list_frame .file_list_element.mime-video {background-image: url("/pub/img/ico/video-quicktime.png");}
+#filemanager_files_list_frame .file_list_element.mime-generic {background-image: url("/pub/img/ico/application-octet-stream.png");}
+
+#filemanager_files_list_frame .file_list_element.selected {
+    background-color: #DAEAF0;
+}
+
+#filemanager_files_list_frame h2,
+#filemanager_directories_list_frame h2 {
+    border-bottom: 1px solid #DAEAF0;
+    display: block;
+    margin-bottom: 10px;
+    padding: 15px 0 5px;
+}
+
+#filemanager_functions_frame > div {
+    background-color: #DDDDDD;
+    border: 1px ridge #CCCCCC;
+    color: black;
+    cursor: pointer;
+    display: block;
+    line-height: 16px;
+    margin-bottom: 3px;
+    padding: 7px 10px 5px;
+    text-transform: uppercase;
+}
+
+#filemanager_functions_frame > div:hover {
+    background-color: #D0D0D0;
+    border-color: #C0C0C0;
+    color: #000000;
+}
+
+#filemanager_functions_frame > div.disabled:hover,
+#filemanager_functions_frame > div.disabled {
+    background-color: #EEEEEE;
+    border-color: #DDDDDD;
+    color: #CCCCCC;
+    cursor: default;
+}
+
+#filemanager_functions_frame #cmd_filemanager_select_file {}
+#filemanager_functions_frame #cmd_filemanager_rename_file {}
+#filemanager_functions_frame #cmd_filemanager_copy_file {}
+#filemanager_functions_frame #cmd_filemanager_cut_file {}
+#filemanager_functions_frame #cmd_filemanager_delete_file {}
+
+#filemanager_functions_frame #cmd_filemanager_create_directory {}
+#filemanager_functions_frame #cmd_filemanager_rename_directory {}
+#filemanager_functions_frame #cmd_filemanager_cut_directory {}
+#filemanager_functions_frame #cmd_filemanager_delete_directory {}
+
+
+
+
+

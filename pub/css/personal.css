@@ -1,0 +1,375 @@
+
+html, body {
+	height: 100%;
+}
+
+body {
+	background-image: url("/file/index/get/?path=/layout/background.jpg");
+	background-position: top center;
+	background-repeat: repeat-y;
+	min-width: 1020px;
+}
+
+h1 {
+	font-family: Rockwell, serif;
+	font-size: 24px;
+	font-weight: bold;
+}
+
+p, h4, a, strong, b, i {
+	font-family: Georgia, serif;
+}
+
+#header {
+	background-image: url("/file/index/get/?path=/layout/header.jpg");
+	background-position: top center;
+	background-repeat: no-repeat;
+	height: 350px;
+	min-width: 1020px;
+}
+
+#body {
+	background-image: url("/file/index/get/?path=/layout/footer.jpg");
+	background-position: center bottom;
+	background-repeat: no-repeat;
+	height: auto !important;
+	min-height: 547px;
+	padding-bottom: 168px;
+	position: relative;
+	min-width: 1020px;
+}
+
+#footer {
+	bottom: 20px;
+	color: white;
+	height: 100px;
+	overflow: hidden;
+	position: absolute;
+	text-align: center;
+	width: 100%;
+}
+
+#footer p {
+	line-height: 12px;
+}
+
+#menu {
+	margin-left: 40px;
+	margin-top: 285px;
+}
+
+#menu a {
+	border-left: 1px solid;
+	color: white;
+	display: block;
+	float: left;
+	font-family: Rockwell,serif;
+	font-size: 20px;
+	padding: 0 40px;
+	text-decoration: none;
+}
+
+#menu a.child-1 {
+	padding: 0 65px;
+}
+
+#menu a.child-1, 
+#menu a.child-2 {
+	border-left: 0 none;
+}
+
+#menu a:hover,
+#menu a:active, 
+#menu a.active {
+	color: #99cc33;
+}
+
+#sidebox {
+	margin-right: 10px;
+	padding: 20px 0;
+	width: 240px;
+}
+
+#sidebox .sidebox * {
+	font-family: Georgia, serif;
+	font-size: 16px;
+	font-style: italic;
+}
+
+#sidebox .sidebox.green * {
+	color: #6b9528;
+	line-height: 22px;
+}
+
+#sidebox .sidebox .form-search .search-query {
+	width: 130px;
+}
+
+#content {
+}
+
+#dinamic {
+	background-color: #E3E3E3;
+	padding: 20px;
+	width: 630px;
+}
+
+.default_index_index #dinamic {
+	background-color: white;
+	padding: 0;
+}
+
+#estate_advanced_search_form {
+}
+
+#estate_advanced_search_form div {
+	display: inline-block;
+	*display: inline;
+	/* IE7 inline-block hack */
+	margin-bottom: 10px;
+	text-align: right;
+	width: 49%;
+}
+
+#estate_advanced_search_form div label {
+}
+
+#estate_advanced_search_form div input,
+#estate_advanced_search_form div select {
+}
+
+#estate_advanced_search_form #search {
+	background-color: transparent;
+	background-image: url("/file/index/get/?path=/layout/search_button.png");
+	background-position: center center;
+	background-repeat: no-repeat;
+	border: 0 none;
+	color: white;
+	font-weight: bold;
+	height: 35px;
+	margin: 0;
+	padding-bottom: 11px;
+	width: 129px;
+}
+
+.estate_ad {
+	float: left;
+	width: 49%;
+}
+
+.estate_ad > img {
+	border: 2px solid #999999;
+	display: inline;
+	float: left;
+	margin: 0 10px 10px 0;
+	width: 122px;
+}
+
+.estate_ad h4,
+.estate_ad h4 a {
+	color: #000000;
+	font-size: 18px;
+	font-weight: bold;
+}
+
+.estate_ad .ad_date {
+	display: none;
+}
+
+.estate_ad .ad_type {
+	display: none;
+}
+
+.estate_ad .ad_price {
+	color: #5c9117;
+	font-size: 12px;
+}
+
+.estate_ad .ad_preview {
+	color: #999999;
+	font-size: 12px;
+	line-height: 15px;
+	margin: 0;
+}
+
+.estate_ad .ad_preview .correct_lineheight {
+	position: relative;
+	top: -1px;
+}
+
+.estate_pagination_controls {
+	clear: both;
+	padding-top: 20px;
+	text-align: center;
+}
+
+.estate_pagination_controls a,
+.estate_pagination_controls span {
+	color: #999999;
+	font-family: Georgia, serif; 
+	font-size: 18px;
+	text-decoration: none;
+}
+
+.estate_pagination_controls a {
+	color: black;
+}
+
+.estate_pagination_controls a:hover {
+	color: #6B9528;
+}
+
+.estate_pagination_controls .item,
+.estate_pagination_controls .cmd {
+}
+
+.estate_pagination_controls a.item {
+}
+
+.estate_pagination_controls span.item {
+}
+
+.estate_pagination_controls span.separator {
+}
+
+.estate_pagination_controls a.cmd {
+}
+
+.estate_pagination_controls span.cmd {
+}
+
+.estate_pagination_controls .cmd-prev {
+}
+
+.estate_pagination_controls .cmd-next {
+}
+
+#estate_ad {
+}
+
+.estate_ad.even {
+    clear: left;
+}
+
+.estate_ad.odd {
+}
+
+#estate_ad .ad_date {
+	color: #999999;
+	font-size: 11px;
+	font-style: italic;
+}
+
+#estate_ad .ad_primary {
+	border: 2px solid #999999;
+}
+
+#estate_ad #ad_gallery {
+}
+
+#estate_ad #ad_gallery a {
+	margin-right: 4.8px;
+}
+
+#estate_ad #ad_gallery a img {
+	border: 2px solid #999999;
+}
+
+#estate_ad .ad_text {
+	color: #777973;
+	font-size: 14px;
+}
+
+#estate_ad .ad_price {
+	color: #333333;
+	font-size: 14px;
+	font-weight: bold;
+	margin-right: 20px;
+}
+
+#estate_ad .ad_code {
+	color: #5c9306;
+	font-size: 14px;
+	font-weight: bold;
+}
+
+#estate_ad table {
+}
+
+#estate_ad table td {
+	border-bottom: 1px solid #999999;
+	color: #777973;
+	font-size: 14px;
+	font-style: italic;
+}
+
+#estate_ad table td strong {
+	color: #5c9306;
+	font-style: normal;
+	font-weight: bold;
+}
+
+.estate_ad_widget_evidence {
+	background-color: #E3E3E3;
+	margin-bottom: 20px;
+	padding: 10px;
+}
+
+.estate_ad_widget_evidence .estate_ad_widget_evidence_item {
+	padding: 5px;
+	width: 30%;
+}
+
+.estate_ad_widget_evidence .estate_ad_widget_evidence_item h4 {
+	font-family: Rockwell, serif;
+	font-size: 24px;
+	font-weight: bold;
+	margin-bottom: 15px;
+}
+
+.estate_ad_widget_evidence .estate_ad_widget_evidence_item .ad_primary {
+	border: 2px solid #999999;
+	margin-bottom: 10px;
+}
+
+.estate_ad_widget_evidence .estate_ad_widget_evidence_item .ad_preview {
+	color: #777973;
+	font-size: 11px;
+}
+
+.estate_ad_widget_evidence .estate_ad_widget_evidence_item .ad_price {
+	color: #333333;
+	font-size: 11px;
+	font-weight: bold;
+	margin-bottom: 0;
+}
+
+.estate_ad_widget_evidence .estate_ad_widget_evidence_item .ad_code {
+	color: #777973;
+	font-size: 11px;
+	font-weight: bold;
+	margin-bottom: 0;
+}
+
+.estate_ad_widget_evidence .estate_ad_widget_evidence_item .ad_readmore {
+	color: #70a62a;
+	font-size: 14px;
+	font-weight: bold;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

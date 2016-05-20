@@ -1,0 +1,13 @@
+
+<?php if ($_SERVER['HTTP_HOST'] === 'dev.demo-immobiliare.com'):?>
+
+<h1>Si &egrave; verificato un errore:</h1>
+<h2><?php echo $this->error->getMessage() ?></h2>
+<pre><?php echo $this->error->getTraceAsString() ?></pre>
+
+<?php else: ?>
+
+<h1>Ops. si è verificato un errore.</h1>
+<p>L'assistenza tecnica è stata avvisata, provvederemo al più presto!</p>
+
+<?php endif; ?>

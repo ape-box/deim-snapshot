@@ -1,0 +1,261 @@
+
+<script type="text/javascript">
+//<![CDATA[
+
+(function($) {
+	$(function(){
+
+		/**
+		 * Add menu items from list
+		 * -----------------------------------------------------------------------------------------------------------------------------------------------------
+		 */
+		$('#pages_form').on('submit', function(){
+			var form_pages = $('#pages_form');
+			var data = form_pages.serializeArray();
+			$(data).each(function(idx, item){
+				var form_menu = $('#menu_form tbody');
+				var page = form_pages.find('#'+item.name);
+				var label = page.attr('data-label');
+				var pattern = page.attr('data-uri_pattern');
+				var link = pattern.replace('{id}', item.value).replace('{label}', encodeURIComponent(label));
+				var maxcounter = 0;
+				form_menu.find('input[name$="[order]"]').each(function(){
+					var value = parseInt($(this).val(), 10);
+					if (value > maxcounter) maxcounter = value;
+				});
+				maxcounter += 100;
+				var next_index = 0;
+				form_menu.find('input[name$="[id]"]').each(function(){
+					var value = $(this).attr('name');
+					var re = new RegExp('[0-9]+');
+					value = re.exec(value);
+					value = parseInt(value, 10);
+					if (value > next_index) next_index = value;
+				});
+				next_index += 1;
+				var row = '<tr class="control-group warning">';
+					row+= '    <td><input type="text" value="'+ label		+'" id="menu['+next_index+'][label]" name="menu['+next_index+'][label]"></td>';
+					row+= '    <td><input type="text" value="'+ link		+'" id="menu['+next_index+'][link]"  name="menu['+next_index+'][link]"></td>';
+					row+= '    <td><input type="text" value="'+ maxcounter	+'" id="menu['+next_index+'][order]" name="menu['+next_index+'][order]"></td>';
+					row+= '    <td>';
+					row+= '        <input type="hidden" value="" name="menu['+next_index+'][id]">';
+					row+= '        <input type="hidden" value="'+item.value+'" name="menu['+next_index+'][pageid]">';
+					row+= '        <button type="button" action="save" class="btn btn-primary">salva</button>';
+					row+= '        <button type="button" action="remove" class="btn btn-danger">rimuovi</button>';
+					row+= '        <div class="btn pull-right sort"><i class="icon-th"></i></div>';
+					row+= '    </td>';
+					row+= '</tr>';
+				form_menu.append(row);
+			});
+			$('input[type="checkbox"]').removeAttr('checked');
+			return false;
+		});
+
+		/**
+		 * Manage items sorting
+		 * -----------------------------------------------------------------------------------------------------------------------------------------------------
+		 */
+		$('#menu_form tbody').sortable({
+			"containment": "tbody",
+			"items": "tr",
+			"handle": ".sort",
+			"axis": "Y",
+			"stop": function(){reindex_menu_order(false);}
+		});
+
+		/**
+		 * Modification allerts
+		 * -----------------------------------------------------------------------------------------------------------------------------------------------------
+		 */
+		$('#menu_form tbody').on('change', 'input', function(){
+			var e = $(this);
+			if (e.attr('name').match(/order/i) !== null) reindex_menu_order(true);
+			e.closest('tr').addClass('warning');
+		});
+
+		/**
+		 * Manage SAVE and REMOVE actions
+		 * -----------------------------------------------------------------------------------------------------------------------------------------------------
+		 */
+		$('#menu_form').on('click', 'button', function(event){
+			var _s = $(this);
+			var c = _s.closest('tr');
+			switch (_s.attr('action'))
+			{
+				case 'save':
+					var data = {
+						"label": c.find('input[name$="[label]"]').val(),
+						"link": c.find('input[name$="[link]"]').val(),
+						"order": c.find('input[name$="[order]"]').val(),
+						"id": c.find('input[name$="[id]"]').val(),
+						"page_id": c.find('input[name$="[page_id]"]').val(),
+					};
+					$.ajax('/menu/admin/save', {
+						"data": data,
+						"dataType": "json",
+						"type": "post",
+						"error": function(call, status, error){
+							alert("C'è stato un errore nel salvataggio, forse la sessione è scaduta ...");
+						},
+						"success": function(data, status, call){
+							if (status === 'success') {
+								_s.find('input[name$="[id]"').val(data.id);
+								c.removeClass('warning');
+								c.addClass('success');
+								setTimeout(function(){c.removeClass('success');}, 5000);
+							}
+							else alert("C'è stato un errore nel salvataggio, forse la sessione è scaduta ...");
+						}
+					});
+					break;
+				case 'remove':
+					var data = {
+						"id": c.find('input[name$="[id]"]').val()
+					};
+					if (data.id !== "") {
+						$.ajax('/menu/admin/remove', {
+							"data": data,
+							"dataType": "json",
+							"type": "post",
+							"error": function(call, status, error){
+								alert("C'è stato un errore, forse la sessione è scaduta ...");
+							},
+							"success": function(data, status, call){
+								if (status === 'success' && data === true) {
+									c.remove();
+								}
+								else alert("C'è stato un errore, forse la sessione è scaduta ...");
+							}
+						});
+					}
+					else c.remove();
+					break;
+			}
+		});
+	});
+})(jQuery);
+
+function reindex_menu_order(read_order) {
+	var form = jQuery('#menu_form tbody');
+	if (read_order === true) {
+		var list = [];
+		form.find('tr').each(function(){
+			var e = $(this);
+			var index = e.find('input[name$="[order]"]').val();
+			index = parseInt(index, 10);
+			list[index] = e.detach();
+		});
+		$(list).each(function(idx, e){
+			form.append(e);
+		});
+	}
+	else {
+		var index = 0;
+		form.find('tr').each(function(){
+			var e = $(this);
+			index += 100;
+			e.find('input[name$="[order]"]').val(index);
+			if (e.hasClass('warning') === false) e.addClass('warning');
+		});
+	}
+}// func
+
+//]]>
+</script>
+
+
+<?php $this->placeholder('sidebox-menu')->captureStart() ?>
+
+<div class="well">
+	<h4>Elenco Pagine:</h4><br />
+	<form action="javascript:void(0);" id="pages_form">
+		<div class="control-group">
+			<div class="controls">
+				<label class="checkbox">
+					<input 	type="checkbox"
+							value="home"
+							id="pages-home"
+							name="pages-home"
+							data-label="homepage"
+							data-uri_pattern="/">
+					Link to Homepage
+				</label>
+			</div>
+		</div>
+		<div class="control-group">
+			<div class="controls">
+				<label class="checkbox">
+					<input 	type="checkbox"
+							value="ad"
+							id="pages-ad"
+							name="pages-ad"
+							data-label="Annunci"
+							data-uri_pattern="/estate/ad/list/">
+					Elenco annunci
+				</label>
+			</div>
+		</div>
+	<?php foreach ($this->pages as $page): ?>
+		<div class="control-group">
+			<div class="controls">
+				<label class="checkbox">
+					<input 	type="checkbox"
+							value="<?php echo $page['id'] ?>"
+							id="pages-<?php echo $page['id'] ?>"
+							name="pages-<?php echo $page['id'] ?>"
+							data-label="<?php echo str_replace(array('"', "'"), '&quot;', $page['title']) ?>"
+							data-uri_pattern="/page/view/id/{id}/name/{label}"
+						/>
+					<?php echo $page['title'] ?>
+				</label>
+			</div>
+		</div>
+	<?php endforeach;?>
+		<div class="form-actions">
+			<button class="btn btn-primary" type="submit">aggiungi</button>
+		</div>
+	</form>
+</div>
+
+<?php $this->placeholder('sidebox-menu')->captureEnd() ?>
+
+<h2>Voci del menù</h2>
+<div class="well">
+	<form id="menu_form" class="form form-inline" method="POST">
+		<table class="table table-striped">
+			<thead>
+				<tr><th>label</th><th>link</th><th>ordine</th><th>azioni</th></tr>
+			</thead>
+			<tbody>
+			<?php foreach ($this->items as $item): ?>
+				<?php
+					$_row_label = "menu[{$item['id']}][label]";
+					$_row_link  = "menu[{$item['id']}][link]";
+					$_row_order = "menu[{$item['id']}][order]";
+					$_row_id = "menu[{$item['id']}][id]";
+					$_row_page_id = "menu[{$item['id']}][page_id]";
+				?>
+				<tr class="control-group">
+					<td><input type="text" name="<?php echo $_row_label ?>" id="<?php echo $_row_label ?>" value="<?php echo $item['label'] ?>" /></td>
+					<td><input type="text" name="<?php echo $_row_link  ?>" id="<?php echo $_row_link  ?>" value="<?php echo $item['link'] ?>" /></td>
+					<td><input type="text" name="<?php echo $_row_order ?>" id="<?php echo $_row_order ?>" value="<?php echo $item['order'] ?>" /></td>
+					<td>
+						<input type="hidden" name="<?php echo $_row_id ?>" value="<?php echo $item['id'] ?>" />
+						<input type="hidden" name="<?php echo $_row_page_id ?>" value="<?php echo $item['page_id'] ?>" />
+						<button class="btn btn-primary" type="button" action="save">salva</button>
+						<button class="btn btn-danger" type="button" action="remove">rimuovi</button>
+						<div class="btn pull-right sort"><i class="icon-th"></i></div>
+					</td>
+				</tr>
+			<?php endforeach;?>
+			</tbody>
+			<tfoot>
+				<tr><td colspan="4" class="form-actions">
+					<button class="btn btn-primary" type="submit">salva tutti</button>
+				</td></tr>
+			</tfoot>
+		</table>
+	</form>
+</div>
+
+

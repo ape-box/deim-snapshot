@@ -1,0 +1,70 @@
+
+html, body {
+	height: 100%;
+}
+
+body {
+}
+
+.sidebar-nav {
+	padding: 9px 0;
+}
+
+form.filterform > table.filtertable tr td {
+	padding: 10px 10px 0 10px;
+}
+
+form.filterform > table.filtertable tr td input {
+	margin: 0 10px 10px 0;
+}
+
+form.filterform > table.filtertable tr td input[type="button"] {
+	padding: 5px 15px;
+}
+
+#main_container {
+	background-image: url("/pub/img/modern-loft-interior-design-ideas-by-new-york-architect.jpg");
+	background-repeat: no-repeat;
+	min-height: 100%;
+	height: auto !important;
+	*height: 100%;
+	position: relative;
+	min-width: 1300px;
+}
+
+.forcenochildborder > div {
+	border: 0 none;
+}
+
+.navbar .brand {
+	font-family: 'VinegarRegular';
+}
+
+#wrapper {
+	padding-bottom: 300px;
+	padding-top: 60px;
+}
+
+#footer {
+	background: none repeat scroll 0 0 #EEEEEE;
+	bottom: 0;
+	height: 300px;
+	padding: 0;
+	position: absolute;
+	width: 100%;
+}
+
+#footer > div {
+	margin: 0 auto;
+	padding: 50px;
+	width: 960px;
+}
+
+#footer > div p {
+}
+
+#menu_form {
+	min-width: 940px;
+}
+
+

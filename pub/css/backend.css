@@ -1,0 +1,284 @@
+
+html,
+body, 
+* { border: 0 none; outline: 0 none; text-decoration: none; margin: 0; padding: 0; font-family: sans-serif; font-size:12px;}
+
+body 
+{
+    background-color: #F0F0F0;
+    background-image: url("/pub/img/admin/layout/bg-stripe-1-a.jpg");
+    background-position: 0 100px;
+    background-repeat: repeat-x;
+}
+
+#header_wrapper
+{
+    background-image: url("/pub/img/admin/skyline.jpg");
+    background-position: left bottom;
+    background-repeat: repeat;
+}
+
+#header_wrapper #logo
+{
+    background-image: url("/pub/img/admin/layout/bg-stripe-2-a.jpg");
+    background-position: -25px 0;
+    background-repeat: repeat-y;
+    height: 100px;
+    width: 225px;
+}
+
+#footer_wrapper
+{
+}
+
+#content_wrapper
+{
+}
+
+#content_wrapper #default_menu
+{
+    height: 35px;
+    margin-left: 225px;
+    width: auto;
+}
+
+#content_wrapper #default_menu a {
+    border-left: 2px solid white;
+    border-right: 2px solid white;
+    color: white;
+    display: block;
+    float: left;
+    font-size: 16px;
+    font-variant: small-caps;
+    font-weight: bolder;
+    height: 33px;
+    line-height: 32px;
+    margin-left: -2px;
+    margin-top: 1px;
+    padding: 0 25px;
+    width: auto;
+}
+
+#content_wrapper #default_menu a:hover {
+    color: #FFDE00;
+}
+
+#content_wrapper .widget_dx {
+    background-image: url("/pub/img/admin/layout/widget-a.jpg");
+    background-position: 0 0;
+    background-repeat: no-repeat;
+    float: left;
+    height: 320px;
+    margin-top: 0;
+    min-height: 320px;
+    width: 225px;
+}
+
+#content_wrapper .widget_dx .widget_dx_header {
+    height: auto;
+}
+
+#content_wrapper .widget_dx .widget_dx_header .widget_dx_title{
+    background-image: url("/pub/img/admin/layout/widget-title-a.png");
+    background-repeat: no-repeat;
+    font-size: 16px;
+    font-variant: small-caps;
+    font-weight: bold;
+    height: 49px;
+    line-height: 51px;
+    text-align: center;
+    width: 180px;
+}
+
+#content_wrapper .widget_dx .widget_dx_content {
+    height: auto;
+}
+
+#content_wrapper .widget_dx .widget_dx_content a {
+    color: wheat;
+    display: list-item;
+    font-size: 13px;
+    font-variant: small-caps;
+    letter-spacing: 1px;
+    list-style-type: none;
+    margin-left: 20px;
+    padding-bottom: 10px;
+    padding-left: 30px;
+    padding-top: 5px;
+    width: 150px;
+}
+
+#content_wrapper .widget_dx .widget_dx_content a.icon_new {
+    background-image: url("/pub/img/admin/icons/16/Actions-document-new-icon.png");
+    background-position: 0 4px;
+    background-repeat: no-repeat;
+}
+
+#content_wrapper .widget_dx .widget_dx_content a.icon_list {
+    background-image: url("/pub/img/admin/icons/16/Apps-file-manager-archive-icon.png");
+    background-position: 0 4px;
+    background-repeat: no-repeat;
+}
+
+#content {
+    float: none;
+    margin-left: 225px;
+    padding: 15px;
+    width: auto;
+}
+
+/*
+
+.zend_form {}
+
+.zend_form div {
+    margin: 7px 0;
+}
+
+.zend_form div label {
+    display: inline-block;
+    float: left;
+    width: 190px;
+}
+
+.zend_form div input[type="text"] {
+    background-color: white;
+    color: black;
+    padding: 4px 3px;
+    width: 500px;
+}
+
+.zend_form div input[type="checkbox"] {}
+
+.zend_form div textarea {
+    background-color: white;
+    color: black;
+    padding: 4px 3px;
+    width: 500px;
+}
+
+.zend_form div select {
+    width: 505px;
+}
+
+.zend_form div input[type="submit"] {
+    background-color: #DD852B;
+    cursor: pointer;
+    font-size: 20px;
+    margin-top: 20px;
+    padding: 5px 10px 1px;
+    text-transform: uppercase;
+    -moz-transition: all 0.2s linear 0s;
+    -moz-transition: color 0.2s linear 0s;
+}
+
+.zend_form div input[type="submit"]:hover {
+    background-color: black;
+    color: #DD852B;
+    -moz-transition: all 0.2s linear 0s;
+    -moz-transition: color 0.2s linear 0s;
+}
+
+.zend_form div button {
+    background-color: #CCCCCC;
+    cursor: pointer;
+    font-size: 12px;
+    padding: 5px 10px 3px;
+    -moz-transition: all 0.2s linear 0s;
+    -moz-transition: color 0.2s linear 0s;
+}
+
+.zend_form div button:hover {
+    background-color: black;
+    color: white;
+    -moz-transition: all 0.2s linear 0s;
+    -moz-transition: color 0.2s linear 0s;
+}
+
+.zend_form div .errors {
+    border-top: 1px dashed red;
+    margin-top: 5px;
+    width: 400px;
+}
+
+.zend_form #toggle {
+	margin-left: 190px;
+}
+.zend_form div .errors li {
+    color: red;
+    list-style-type: none;
+    margin-bottom: 15px;
+    padding-top: 5px;
+    text-align: right;
+    width: 100%;
+}
+
+#tabs .zend_form div input[type="text"],
+#tabs .zend_form div select,
+#tabs .zend_form div textarea {
+    background-color: #E8EBFF;
+}
+
+#tabs input[type="button"] {
+    background-color: #CCCCCC;
+    cursor: pointer;
+    font-size: 12px;
+    padding: 5px 10px 3px;
+    -moz-transition: all 0.2s linear 0s;
+    -moz-transition: color 0.2s linear 0s;
+}
+
+#tabs input[type="button"]:hover {
+    background-color: black;
+    color: white;
+    -moz-transition: all 0.2s linear 0s;
+    -moz-transition: color 0.2s linear 0s;
+}
+
+#tabs #imageListCmd {
+    background-color: #EEEEEE;
+    border: 1px solid #CCCCCC;
+    display: inline-block;
+    margin: 0 0 10px;
+    padding: 5px 10px;
+}
+
+#tabs #imageListCmd input[type="text"] {
+    height: 24px;
+    margin: 0 10px;
+    padding: 0 10px;
+    width: 400px;
+}
+
+#tabs #imageListCmd input[type="button"] {}
+
+#tabs #imageList {}
+
+#tabs #imageList .imageContainer {
+    float: left;
+    margin: 10px 10px 0 0;
+    padding: 15px;
+    width: auto;
+}
+
+#tabs #imageList .imageContainer img {}
+
+#tabs .submit_elements {
+    clear: both;
+    padding-top: 20px;
+}
+*/
+
+.admin_page_title {
+    background-color: #EEEEEE;
+    font-size: 18px;
+    font-variant: small-caps;
+    font-weight: bold;
+    margin-bottom: 30px;
+    margin-top: 30px;
+    padding: 5px 10px;
+}
+
+
+
+

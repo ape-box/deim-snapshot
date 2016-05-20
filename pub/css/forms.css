@@ -1,0 +1,138 @@
+
+
+form.standard_form {}
+
+form.standard_form fieldset {
+    background-color: #EEEEEE;
+    border: 1px solid #CCCCCC;
+    margin-bottom: 60px;
+    padding: 15px;
+}
+
+form.standard_form fieldset legend {
+    background-color: #EEEEEE;
+    border: 1px solid #CCCCCC;
+    cursor: default;
+    font-size: 14px;
+    font-style: italic;
+    font-weight: bold;
+    padding: 5px 175px;
+}
+
+form.standard_form .std_element {
+    border-bottom: 1px dotted #CCCCCC;
+    margin: 0 0 15px;
+    padding: 0 0 16px 0;
+}
+
+form.standard_form .std_element:last-child {
+    border-bottom: 0 none;
+    margin: 0 0 0;
+}
+
+form.standard_form .std_element label {
+    float: left;
+    width: 200px;
+}
+
+form.standard_form .std_element input[type=text] {
+    border: 1px solid #CCCCCC;
+    min-width: 350px;
+    padding: 2px;
+}
+
+form.standard_form .std_element input[type=checkbox] {}
+
+form.standard_form .std_element select {
+    border: 1px solid #CCCCCC;
+    min-width: 350px;
+    padding: 2px;
+}
+
+form.standard_form .std_element textarea {
+    min-width: 350px;
+}
+
+form.standard_form .isolated_button {}
+
+form.standard_form .isolated_button input,
+form.standard_form .isolated_button button {
+    background-color: #DDDDDD;
+    border: 1px solid #BBBBBB;
+    cursor: pointer;
+    font-weight: bold;
+    padding: 5px 15px;
+}
+
+form.standard_form .isolated_button input:hover,
+form.standard_form .isolated_button button:hover {
+    background-color: #EEEEEE;
+    border: 1px solid #CCCCCC;
+}
+
+form.standard_form .inner_button {
+    border-bottom: 1px dotted #CCCCCC;
+    margin: 0 0 15px;
+    padding: 0 0 16px 0;
+}
+
+form.standard_form .inner_button:last-child {
+    border-bottom: 0 none;
+    margin: 0 0 0;
+}
+
+form.standard_form .inner_button label {
+    float: left;
+    width: 200px;
+}
+
+form.standard_form .inner_button input,
+form.standard_form .inner_button button {
+    background-color: #DDDDDD;
+    border: 1px solid #BBBBBB;
+    cursor: pointer;
+    font-weight: bold;
+    padding: 5px 15px;
+}
+
+form.standard_form .inner_button input:hover,
+form.standard_form .inner_button button:hover {
+    background-color: #EEEEEE;
+    border: 1px solid #CCCCCC;
+}
+
+form.standard_form .file_element {
+    border-bottom: 1px dotted #CCCCCC;
+    margin: 0 0 15px;
+    padding: 0 0 16px 0;
+}
+
+form.standard_form .file_element:last-child {
+    border-bottom: 0 none;
+    margin: 0 0 0;
+}
+
+form.standard_form .file_element label {
+    float: left;
+    width: 200px;
+}
+
+form.standard_form .file_element input[type=file] {
+    background-color: #DDDDDD;
+    display: block;
+    font-weight: bold;
+    margin-left: 200px;
+    padding: 5px 15px;
+    width: 200px;
+}
+
+form.standard_form .file_element .preview_image .name {
+    display: inline;
+    float: left;
+    width: 200px;
+}
+
+form.standard_form .file_element .preview_image img {
+    vertical-align: top;
+}
+

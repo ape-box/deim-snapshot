@@ -1,0 +1,11 @@
+<?php
+	$this->headTitle()->prepend($this->data['title']);
+	$this->headMeta()->setName('keywords', $this->data['keywords'])
+		->setName('description', $this->data['description']);
+?>
+
+<div id="page_view">
+	<h1><?php echo $this->data['title'] ?></h1>
+	<div id="page_view_content"><?php echo $this->data['text'] ?></div>
+</div>
+

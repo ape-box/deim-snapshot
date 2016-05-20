@@ -1,0 +1,30 @@
+#AddDefaultCharset UTF-8
+
+<Files ~ "^\.ht">
+	Order allow,deny
+	Deny from All
+</Files>
+
+Options -Indexes
+
+<IfModule mod_rewrite.c>
+	RewriteEngine On
+	RewriteBase /
+
+#	RewriteCond %{REQUEST_FILENAME} -s [OR]
+#	RewriteCond %{REQUEST_FILENAME} -l [OR]
+#	RewriteCond %{REQUEST_FILENAME} -d
+#	RewriteRule ^.*$ - [NC,L]
+#	RewriteRule ^.*$ index.php [NC,L]
+
+	RewriteCond %{HTTP_USER_AGENT} Yandex [OR]
+	RewriteCond %{HTTP_USER_AGENT} Baidu [OR]
+	RewriteCond %{HTTP_USER_AGENT} ^Mozilla$ [OR]
+	RewriteCond %{HTTP_USER_AGENT} ^$
+	RewriteRule .* /index.html [F,L,NC]
+#	RewriteRule !(index.html|robots.txt) /index.html [F,L,NC]
+	
+	RewriteCond %{REQUEST_URI} !^(/pub|/robots.txt|/favicon.ico).*
+	RewriteRule ^.*$ index.php
+</IfModule>
+

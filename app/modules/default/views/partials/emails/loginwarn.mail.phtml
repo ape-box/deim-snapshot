@@ -1,0 +1,74 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" >
+	<style type="text/css">
+		* {
+			    border: 0 none;
+			    font-family: Sans-serif;
+			    margin: 0;
+			    outline: 0 none;
+			    padding: 0;
+		}
+		html {
+		    background-color: white;
+		}
+		body {
+		    background-color: #CCCCCC;
+		    height: 98%;
+		    margin-left: 2%;
+		    padding-left: 2%;
+		    padding-top: 2%;
+		    position: absolute;
+		    width: 96%;
+		}
+		h1 {
+		    border-bottom: 4px solid #AAAAAA;
+		    display: inline-block;
+		    font-size: 1.5em;
+		    font-weight: normal;
+		    margin-bottom: 1%;
+		}
+		p {
+		    color: #444444;
+		    margin: 10px 0;
+		}
+		a {
+		    color: #FFFFFF;
+		}
+		strong {}
+		div {}
+		pre {}
+		p.link {}
+		p.link a {}
+		p.name {}
+		p.name strong {
+		    font-style: italic;
+		    font-weight: bold;
+		}
+		div.message {}
+		div.message p {}
+		div.message pre {
+		    background-color: #BBBBBB;
+		    color: #FFFFFF;
+		    display: block;
+		    font-size-adjust: 0.4;
+		    font-style: italic;
+		    letter-spacing: 0.5px;
+		    padding: 1%;
+		    white-space: pre-wrap;
+		    width: 50%;
+		    word-spacing: 3px;
+		}
+	</style>
+</head>
+<body>
+<h1><?php echo $this->message ?></h1>
+<div class="message">
+	<p>Indirizzo server : <?php echo $_SERVER['HTTP_HOST'] ?></p>
+	<p>Indirizzo client : <?php echo $_SERVER['REMOTE_ADDR'] ?></p>
+</div>
+</body>
+</html>
+
+

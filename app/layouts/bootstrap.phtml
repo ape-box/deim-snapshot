@@ -1,0 +1,169 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<?php echo 'it' ?>" lang="<?php echo 'it' ?>">
+<head>
+	<meta http-equiv="pragma" content="no-cache" />
+	<meta http-equiv="Cache-Control" content="no-cache" />
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" >
+	<meta http-equiv="Content-Language" content="<?php echo 'it' ?>" >
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Demo Immobiliare - Amministrazione</title>
+	<?php
+		$this->headScript()->prependFile('/pub/jquery-1.7.1.min.js', 'text/javascript');
+		$this->headScript()->appendFile('/pub/jquery-ui-1.8.16/js/jquery-ui-1.8.16.custom.min.js', 'text/javascript');
+		$this->headScript()->appendFile('/pub/json2.js', 'text/javascript');
+		$this->headScript()->appendFile('/pub/tinymce/tiny_mce.js', 'text/javascript');
+
+		$this->headScript()->appendFile('/tools/javascript/functions', 'text/javascript');
+
+		$this->headScript()->appendFile('/pub/bootstrap/js/bootstrap-transition.js', 'text/javascript');
+		$this->headScript()->appendFile('/pub/bootstrap/js/bootstrap-alert.js', 'text/javascript');
+		$this->headScript()->appendFile('/pub/bootstrap/js/bootstrap-modal.js', 'text/javascript');
+		$this->headScript()->appendFile('/pub/bootstrap/js/bootstrap-dropdown.js', 'text/javascript');
+		$this->headScript()->appendFile('/pub/bootstrap/js/bootstrap-scrollspy.js', 'text/javascript');
+		$this->headScript()->appendFile('/pub/bootstrap/js/bootstrap-tab.js', 'text/javascript');
+		$this->headScript()->appendFile('/pub/bootstrap/js/bootstrap-tooltip.js', 'text/javascript');
+		$this->headScript()->appendFile('/pub/bootstrap/js/bootstrap-popover.js', 'text/javascript');
+		$this->headScript()->appendFile('/pub/bootstrap/js/bootstrap-button.js', 'text/javascript');
+		$this->headScript()->appendFile('/pub/bootstrap/js/bootstrap-collapse.js', 'text/javascript');
+		$this->headScript()->appendFile('/pub/bootstrap/js/bootstrap-carousel.js', 'text/javascript');
+		$this->headScript()->appendFile('/pub/bootstrap/js/bootstrap-typeahead.js', 'text/javascript');
+
+		$this->headLink()->appendStylesheet('/pub/bootstrap/css/bootstrap.css');
+		$this->headLink()->appendStylesheet('/pub/bootstrap/css/bootstrap-responsive.css');
+		$this->headLink()->appendStylesheet('/pub/jquery-ui-1.8.16/css/redmond/jquery-ui-1.8.16.custom.css');
+		$this->headLink()->appendStylesheet('/pub/css/modern-back.css');
+		$this->headLink()->appendStylesheet('/pub/css/modern-forms.css');
+		$this->headLink()->appendStylesheet('/pub/fonts/vinegar-regular.css');
+
+		echo $this->headLink();
+		echo $this->headScript();
+		echo $this->headStyle();
+	?>
+	<!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+	<script type="text/javascript">
+	<!--
+	jQuery(function(){
+		jQuery('.datepicker').datepicker({
+			dateFormat: "dd/mm/yy",
+			dayNames: ['Lunedì','Martedì','Mercoledì','Giovedì','Venerdì','Sabato','Domenica'],
+			dayNamesShort: ['Lun','Mar','Mer','Gio','Ven','Sab','Dom'],
+			dayNamesMin: ['Lu','Ma','Me','Gi','Ve','Sa','Do'],
+			monthNames: ['Gennaio','Febbraio','Marzo','Aprile','Maggio','Giugnio','Luglio','Agosto','Settembre','Ottobre','Novembre','Dicembre'],
+			monthNamesShort: ['Gen','Feb','Mar','Apr','Mag','Giu','Lug','Ago','Set','Ott','Nov','Dic'],
+		});
+	});
+	//-->
+	</script>
+</head>
+<body class="<?php
+		$_request = Zend_Controller_Front::getInstance()->getRequest();
+		$module = $_request->getModuleName();
+		$controller = $_request->getControllerName();
+		$action = $_request->getActionName();
+
+		echo $module.'_'.$controller.'_'.$action;
+	?>">
+	<div id="main_container">
+
+		<div class="navbar navbar-fixed-top">
+			<div class="navbar-inner">
+				<?php /*
+				<div class="container-fluid">
+					<a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+					</a>
+					<a class="brand" href="/">demo-Immobiliare.com</a>
+					<div class="nav-collapse">
+						<?php echo $this->navigation()->menu()->renderPartial($this->navtop, 'bootstrap-nav-top.phtml') ?>
+					</div>
+				</div>
+				*/?>
+				<div class="container-fluid">
+					<ul class="nav">
+						<li><a class="brand" href="/">demo-Immobiliare.com</a></li>
+					</ul>
+					<?php echo $this->navigation()->menu()->renderPartial($this->navtop, 'bootstrap-nav-top.phtml') ?>
+				</div>
+			</div>
+		</div>
+
+		<div class="container-fluid" id="wrapper">
+			<div class="row-fluid">
+
+				<div class="span2">
+					<div class="well sidebar-nav">
+						<?php echo $this->navigation()->menu()->renderPartial($this->navquick, 'bootstrap-nav-quick.phtml') ?>
+					</div>
+					<?php echo $this->placeholder('sidebox-menu') ?>
+				</div>
+
+				<div class="span9">
+					<div class="row-fluid">
+						<?php echo $this->layout()->content ?>
+					</div>
+				</div>
+
+			</div>
+		</div>
+
+		<div id="footer">
+			<div>
+				<p>
+					<a href="http://www.demo-immobiliare.com" target="_blank" title="demo-immobiliare.com">demo-immobiliare.com</a> è un prodotto di &laquo;<i style="font-weight: bold;">Alessio Peternelli in collaborazione con Incipit srl</i>&raquo; - <a title="thanks to glyphicons.com" target="_blank" href="http://glyphicons.com/">thanks to <b>Glyphicons</b></a>
+				</p>
+				<!--
+				<p>
+					<ul>
+						<li>da fare:</li>
+						<li>
+							<ol>
+								<li>FAQ</li>
+								<li>Manuale</li>
+								<li>Contatti</li>
+								<li>crediti incipit</li>
+								<li>crediti alessio</li>
+							</ol>
+						</li>
+						<li>ricordarsi cosa altro manca nel footer</li>
+					</ul>
+				</p>
+				 -->
+			</div>
+		</div>
+
+	</div>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

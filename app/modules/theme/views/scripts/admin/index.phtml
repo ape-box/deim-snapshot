@@ -1,0 +1,57 @@
+<?php
+	$this->headScript()->appendFile('/pub/ace/src/ace.js', 'text/javascript');
+	$this->headScript()->appendFile('/pub/ace/src/theme-monokai.js', 'text/javascript');
+	$this->headScript()->appendFile('/pub/ace/src/mode-html.js', 'text/javascript');
+	$this->headScript()->appendFile('/pub/ace/src/mode-css.js', 'text/javascript');
+	$this->headScript()->appendFile('/pub/ace/src/mode-javascript.js', 'text/javascript');
+	$this->headScript()->appendFile('/pub/ace/src/mode-php.js', 'text/javascript');
+?>
+
+<?php $this->headScript()->captureStart();?>
+;(function($) {
+	jQuery(function(){
+		var editor = ace.edit("base-text");
+		editor.setTheme("ace/theme/monokai");
+		var aceEditoMode = require("ace/mode/html").Mode;
+		editor.getSession().setMode(new aceEditoMode());
+		window.editor = editor;
+
+		$('#layout_modify').on('submit', function(){
+			var value = window.editor.getSession().getValue();
+			var self = $(this);
+			var el = self.find('[name="base[text]"]');
+			el.val(value);
+		});
+	});
+})(jQuery);
+<?php $this->headScript()->captureEnd();?>
+
+<?php $this->headStyle()->captureStart();?>
+#ace_wrapper {
+	position: relative;
+	height: 1024px;
+}
+
+#base-text {
+	position: absolute;
+	width: 800px;
+	height: 600px;
+}
+
+#fieldset-base .controls {
+	height: 600px;
+}
+
+<?php $this->headStyle()->captureEnd();?>
+
+<h2><?php echo $this->translate('theme_admin_edit') ?></h2>
+
+<!--
+<div class="well">
+	<div id="ace_wrapper">
+		<div class="span12" id="base-text"><?php echo htmlspecialchars($this->data) ?></div>
+	</div>
+</div>
+-->
+
+<?php echo $this->form ?>

@@ -1,0 +1,128 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<?php echo 'it' ?>" lang="<?php echo 'it' ?>">
+<head>
+	<meta name="revisit-after" content="7 days" >
+	<meta name="robots" content="all" >
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" >
+	<meta http-equiv="Content-Language" content="<?php echo 'it' ?>" >
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<?php
+		echo $this->headMeta();
+		echo $this->headTitle(config_Registry::get('application/website/title'))->setSeparator(' - ');
+
+		$this->headScript()->prependFile('/pub/jquery-1.7.1.min.js', 'text/javascript');
+		$this->headScript()->appendFile('/pub/jquery-ui-1.8.16/js/jquery-ui-1.8.16.custom.min.js', 'text/javascript');
+		$this->headScript()->appendFile('/pub/json2.js', 'text/javascript');
+
+		$this->headScript()->appendFile('/pub/bootstrap/js/bootstrap-transition.js', 'text/javascript');
+		$this->headScript()->appendFile('/pub/bootstrap/js/bootstrap-alert.js', 'text/javascript');
+		$this->headScript()->appendFile('/pub/bootstrap/js/bootstrap-modal.js', 'text/javascript');
+		$this->headScript()->appendFile('/pub/bootstrap/js/bootstrap-dropdown.js', 'text/javascript');
+		$this->headScript()->appendFile('/pub/bootstrap/js/bootstrap-scrollspy.js', 'text/javascript');
+		$this->headScript()->appendFile('/pub/bootstrap/js/bootstrap-tab.js', 'text/javascript');
+		$this->headScript()->appendFile('/pub/bootstrap/js/bootstrap-tooltip.js', 'text/javascript');
+		$this->headScript()->appendFile('/pub/bootstrap/js/bootstrap-popover.js', 'text/javascript');
+		$this->headScript()->appendFile('/pub/bootstrap/js/bootstrap-button.js', 'text/javascript');
+		$this->headScript()->appendFile('/pub/bootstrap/js/bootstrap-collapse.js', 'text/javascript');
+		$this->headScript()->appendFile('/pub/bootstrap/js/bootstrap-carousel.js', 'text/javascript');
+		$this->headScript()->appendFile('/pub/bootstrap/js/bootstrap-typeahead.js', 'text/javascript');
+
+		$this->headLink()->appendStylesheet('/pub/bootstrap/css/bootstrap.css');
+		/**
+		 * decision problem with body width for larger monitors
+		 */
+		//$this->headLink()->appendStylesheet('/pub/bootstrap/css/bootstrap-responsive.css');
+		//$this->headLink()->appendStylesheet('/pub/font/rockwell.css');
+		$this->headLink()->appendStylesheet('/pub/css/frontend.css');
+		$this->headLink()->appendStylesheet('/pub/css/personal.css');
+
+		echo $this->headLink();
+		echo $this->headStyle();
+		echo $this->headScript();
+	?>
+</head>
+<body class="<?php
+		$_request = Zend_Controller_Front::getInstance()->getRequest();
+		$module = $_request->getModuleName();
+		$controller = $_request->getControllerName();
+		$action = $_request->getActionName();
+
+		echo $module.'_'.$controller.'_'.$action;
+	?>">
+	<div id="header">
+		<div class="container">
+			<div class="row-fluid">
+				<div class="span12">
+					<div class="row-fluid">
+						<div class="span12">
+							<div id="menu">
+								<?php
+									try {
+										$menu = new menu_models_Admin();
+										$items = $menu->getDefaultMenuItems();
+										$items = array_slice($items, 0, 5);
+										$view = new Zend_View();
+										$view->setBasePath(dirname(__FILE__).'/../modules/menu/views/');
+										echo $view->partialLoop('front_item.phtml', $items);
+									} catch (Exception $e) {}
+								?>
+							</div>
+						</div>
+					</div>
+					<?php
+					/**
+					 * Removed for graphical needs
+					 * -------------------------------
+					 */
+					/*
+					<div class="row-fluid">
+						<div class="span8 offset4">
+							<div id="breadcrumbs">
+								<?php echo tools_models_Breadcrumbs::render() ?>
+							</div>
+						</div>
+					</div>
+					*/?>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div id="body">
+		<div class="container" id="content">
+			<div class="row-fluid">
+				<div class="span12">
+					<div class="row-fluid">
+						<div class="span4" id="sidebox">
+							<div class="sidebox">
+								<?php echo new estate_forms_Search() ?>
+							</div>
+							<?php
+								$_sidebox_html = config_Registry::get('application/website/sidebox');
+								if (!empty($_sidebox_html)):
+							?>
+							<div class="sidebox green">
+								<?php echo $_sidebox_html ?>
+							</div>
+							<?php endif; ?>
+						</div>
+						<div class="span8" id="dinamic">
+							<?php echo $this->layout()->content; ?>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div id="footer">
+			<div class="container">
+				<div class="row-fluid">
+					<div class="span12">
+						<p><?php echo config_Registry::get('application/info/legals').' / '.config_Registry::get('application/info/addresses')?></p>
+						<p><?php echo config_Registry::get('application/info/reference').' - p.iva '.config_Registry::get('application/info/piva')?></p>
+						<a href="/login">webmaster</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

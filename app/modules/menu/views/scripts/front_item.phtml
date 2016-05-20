@@ -1,0 +1,8 @@
+<a  href="<?php echo $this->link ?>"
+	title="<?php echo $this->label ?>"
+	class="<?php
+		echo 'child-'.$this->partialCounter;
+		echo ' ';
+		echo ($this->partialCounter%2?'odd':'even' ).'-child';
+		echo $this->link === $_SERVER['REQUEST_URI'] ? ' active':'';
+	?>"><?php echo $this->label ?></a>

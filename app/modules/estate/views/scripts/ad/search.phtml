@@ -1,0 +1,22 @@
+
+<script type="text/javascript">
+<!--
+jQuery(function(){
+	jQuery('.estate_ad:odd').addClass('odd');
+	jQuery('.estate_ad:even').addClass('even');
+});
+//-->
+</script>
+
+<h1>Risultati:</h1>
+<?php
+	if ($this->list->getCurrentItemCount() > 0):
+		foreach ($this->list as $ad)
+			echo $this->partial('estate/views/partials/ad/list_element.phtml', $ad);
+	else:
+?>
+	<br />
+	<h3>La ricerca non ha prodotto risultati</h3>
+<?php endif;?>
+
+<?php echo $this->paginationControl($this->list, 'Sliding', 'estate/views/partials/ad/paginator.phtml'); ?>

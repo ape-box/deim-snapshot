@@ -1,0 +1,203 @@
+<script type="text/javascript" src="/public/tinymce/jscripts/tiny_mce/tiny_mce_popup.js"></script>
+<script type="text/javascript">
+var FileBrowserDialogue = {
+	    init : function () {
+	        // Here goes your code for setting your custom things onLoad.
+	    },
+	    submitChange : function (file) {
+	        // Here goes your code to insert the retrieved URL value into the original dialogue window.
+	        // For example code see below.
+	        var URL = '/data/fs'+file;
+	        var win = tinyMCEPopup.getWindowArg("window");
+
+	        // insert information now
+	        win.document.getElementById(tinyMCEPopup.getWindowArg("input")).value = URL;
+
+	        // are we an image browser
+	        if (typeof(win.ImageDialog) != "undefined") {
+	            // we are, so update image dimensions...
+	            if (win.ImageDialog.getImageData) {
+	                win.ImageDialog.getImageData();
+	            }
+
+	            // ... and preview if necessary
+	            if (win.ImageDialog.showPreviewImage) {
+	                win.ImageDialog.showPreviewImage(URL);
+	            }
+	        }
+
+	        // close popup window
+	        tinyMCEPopup.close();
+	    }
+	}
+
+	tinyMCEPopup.onInit.add(FileBrowserDialogue.init, FileBrowserDialogue);
+
+	function navigate_subfolders(subdir)
+	{
+		var actual_dir = '<?php echo $this->subdir ?>';
+		if (subdir === '..') subdir = actual_dir.split('/').slice(0, -1).join('/');
+		else subdir = actual_dir+'/'+subdir;
+		window.location.href = window.location.pathname+'?subfolder='+subdir;
+	}
+
+	function rename_entry(old_name, reference)
+	{
+		var new_name = prompt('Inserisci il nuovo nome:', old_name);
+		if (null === new_name) return false;
+		window.location.href = window.location.pathname+'?subfolder=<?php echo $this->subdir ?>&reference='+reference+'&rename_to='+new_name;
+	}
+
+	function delete_entry(entry)
+	{
+		if(confirm('Sei assolutamente sicuro di volerlo fare ?'))
+		{
+			window.location.href = window.location.pathname+'?subfolder=<?php echo $this->subdir ?>&delete='+entry;
+		}
+	}
+
+	function copy_entry(entry)
+	{
+		window.location.href = window.location.pathname+'?subfolder=<?php echo $this->subdir ?>&copy='+entry;
+	}
+
+	function cut_entry(entry)
+	{
+		window.location.href = window.location.pathname+'?subfolder=<?php echo $this->subdir ?>&cut='+entry;
+	}
+
+	function paste_entry()
+	{
+		window.location.href = window.location.pathname+'?subfolder=<?php echo $this->subdir ?>&paste=true';
+	}
+
+	function create_folder()
+	{
+		var dirname = prompt('Inserisci il nome della nuova cartella:', 'nuova cartella');
+		if (null === dirname) return false;
+		window.location.href = window.location.pathname+'?subfolder=<?php echo $this->subdir ?>&mkdir='+dirname;
+	}
+
+	function upload_file()
+	{
+		window.location.href = '/public/files/upload/?subfolder=<?php echo $this->subdir ?>';
+	}
+</script>
+
+<style>
+<!--
+
+#filemanager_list
+{
+	width: 100%;
+}
+#filemanager_list tr {}
+#filemanager_list tr th,
+#filemanager_list tr td {}
+#filemanager_list tr th {}
+#filemanager_list tr td {}
+#filemanager_list tr td a
+{
+    background-color: white;
+    border: 1px solid #CCCCCC;
+    display: inline-block;
+    height: 12px;
+    line-height: 10px;
+    margin: 1px;
+    padding: 1px 1px 0;
+    text-align: center;
+    text-decoration: none;
+    width: 12px;
+}
+
+#filemanager_list tr td.command_bar
+{
+    border-top: 1px solid #CCCCCC;
+    bottom: 0;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    position: absolute;
+    width: 96%;
+}
+
+#filemanager_list tr td.command_bar a
+{
+    color: #666666;
+    font-weight: bold;
+    padding: 2px 5px 1px;
+    width: auto;
+}
+
+-->
+</style>
+
+<table id="filemanager_list">
+<colgroup>
+	<col align="center" width="5%">
+	<col align="left" width="72%">
+	<col align="center" width="14%">
+</colgroup>
+<thead>
+	<tr>
+		<th>Sel</th>
+		<th>Nome file</th>
+		<th>Azioni</th>
+	</tr>
+</thead>
+<tbody>
+<?php
+	foreach ($this->dir as $row):
+		$name = pathinfo($row, PATHINFO_BASENAME);
+		$name = array_shift(explode('.', $name));
+		$label = pathinfo($row, PATHINFO_BASENAME);
+		if (strlen($row) > 32)
+			$label = substr($label, 0, 14) .'<i>...</i>'. substr($label, -14);
+?>
+<?php if (is_dir("{$this->base}/$row")):?>
+<tr>
+	<td>
+		<a onclick="navigate_subfolders('<?php echo $row; ?>');" href="javascript:void(0);">&#10010;</a>
+	</td>
+	<td><?php echo $label; ?></td>
+	<td>
+		<?php if ($row !== '..'):?>
+		<a href="javascript:void(0);" onclick="rename_entry('<?php echo $name ?>', '<?php echo base64_encode($row) ?>');">R</a>
+		<a href="javascript:void(0);" onclick="cut_entry('<?php echo $row ?>');">&#9988;</a>
+		<a href="javascript:void(0);" onclick="delete_entry('<?php echo $row?>');">&#10008;</a>
+		<?php endif;?>
+	</td>
+</tr>
+<?php else :?>
+<tr>
+	<td>
+		<a onclick="FileBrowserDialogue.submitChange('<?php echo $this->subdir ? "{$this->subdir}/$row" : "/$row"; ?>');" href="javascript:void(0);">&#10004;</a>
+	</td>
+	<td><?php echo $label; ?></td>
+	<td>
+		<a href="javascript:void(0);" onclick="rename_entry('<?php echo $name; ?>', '<?php echo base64_encode($row) ?>');">R</a>
+		<a href="javascript:void(0);" onclick="copy_entry('<?php echo $row ?>');">&#12283;</a>
+		<a href="javascript:void(0);" onclick="cut_entry('<?php echo $row ?>');">&#9988;</a>
+		<a href="javascript:void(0);" onclick="delete_entry('<?php echo $row ?>');">&#10008;</a>
+	</td>
+</tr>
+<?php endif;?>
+<?php endforeach;?>
+<tr>
+	<td colspan="3" class="command_bar">
+		<?php
+			$session = new Zend_Session_Namespace(file_controllers_IndexController::CUTANDPASTE_SESSION_NAMESPACE);
+			if (isset($session->from) && file_exists($session->from)):
+		?>
+			<a href="javascript:void(0);" onclick="paste_entry();">incolla [<?php echo substr(pathinfo($session->from, PATHINFO_BASENAME), 0, 8) . ' ...'?>]</a>
+		<?php else: ?>
+			<a href="javascript:void(0);" style="color: #DDDDDD; cursor: default;">incolla</a>
+		<?php endif;?>
+		<a href="javascript:void(0);" onclick="create_folder();">nuova cartella</a>
+		<a href="javascript:void(0);" onclick="upload_file();">upload</a>
+	</td>
+</tr>
+</tbody>
+</table>
+
+
+

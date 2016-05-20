@@ -1,0 +1,117 @@
+<?php
+	$this->headLink()->appendStylesheet('/pub/jquery.jqGrid-3.8.2/css/ui.jqgrid.css');
+	$this->headScript()->appendFile('/pub/jquery.jqGrid-3.8.2/js/i18n/grid.locale-it.js', 'text/javascript');
+	$this->headScript()->appendFile('/pub/jquery.jqGrid-3.8.2/js/jquery.jqGrid.min.js', 'text/javascript');
+?>
+
+<script type="text/javascript">
+//<![CDATA[
+jQuery(document).ready(function() {
+	jQuery("#jqGrid_page").jqGrid({
+		"autowidth":false,
+		"width":900,
+		"caption":"Pages List",
+		"hidegrid":false,
+		"colNames":[],
+		"colModel":[
+			{"name":"title","label":"Titolo","align":"left","width":200},
+			{"name":"description","label":"SEO Description","align":"left","width":200,"search":false},
+			{"name":"locale","label":"Lingua","hidden":true,"align":"center","width":100,"fixed":true,"edittype":"select","editoptions":{"value":"it_IT:Italiano"},"formatter":"select"}
+		],
+		"datatype":"json",
+		"footerrow":false,
+		"userDataOnFooter":false,
+		"forceFit":true,
+		"shreinkToFit":true,
+		"gridview":true,
+		"height":"100%",
+		"hoverrows":true,
+		"jsonReader":{"root":"rows","page":"currpage","total":"totalpages","records":"totalrecords","repeatitems":false,"id":"id"},
+		"mtype":"post",
+		"multiboxonly":true,
+		"multiselect":true,
+		"pager":"jqGridPager_page",
+		"resizeclass":"resizable",
+		"rowList":[20,50,100],
+		"rowNum":20,
+		"viewrecords":true,
+		"viewsortcols":[true,"vertical",true],
+		"url":<?php echo json_encode('/page/admin/load-list') /*"\/page\/admin\/load-list\/type\/page"*/?>,
+		"editurl":<?php echo json_encode('/page/admin/save') /*"\/page\/admin\/save\/type\/page"*/?>,
+		"onSelectRow":function(id){
+			if(id && id!==lastSel){
+				jQuery(this).saveRow(lastSel);
+				lastSel=id;
+			}
+			jQuery(this).editRow(id,true);
+		},
+		"loadComplete":function(){},
+		"ondblClickRow":function(row_id, index_row, index_col, event_obj){
+			row = jQuery(this).getRowData(row_id);
+			window.location.href = '/page/admin/edit/id/' + escape(row_id) + '/locale/' + escape(row['locale']);
+		},
+		"sortname":"creation_date",
+		"sortorder":"desc"
+	});
+	var lastSel;
+	jQuery("#jqGrid_page").disableSelection();
+	jQuery("#jqGridFilters_page").jqGrid("filterGrid", "jqGrid_page", {
+		"gridModel":true,
+		"gridNames":true,
+		"filterModel":[],
+		"formtype":"horizontal",
+		"autosearch":true,
+		"formclass":"filterform",
+		"tableclass":"filtertable ui-state-default",
+		"buttonclass":"filterbutton btn",
+		"searchButton":"Cerca",
+		"clearButton":"Annulla",
+		"enableSearch":true,
+		"enableClear":true,
+		"marksearched":true
+	});
+
+	jQuery("#cmd_delete").click(function(){
+		var gr = jQuery("#jqGrid_page").jqGrid('getGridParam','selarrrow');
+		if( gr.length > 0 )
+			jQuery("#jqGrid_page").jqGrid('delGridRow',gr,{url : '/page/admin/delete'});
+		else
+			alert("Seleziona uno o pi� elementi da cancellare.");
+	});
+
+	jQuery('#cmd_edit').click(function(){
+		var gr = jQuery("#jqGrid_page").jqGrid('getGridParam','selrow');
+		if( gr!=null )
+			window.location.href = '/page/admin/edit' + /id/ + gr;
+		else
+			alert("Seleziona una riga da modificare..");
+	});
+
+	jQuery('#cmd_new').click(function(){
+		window.location.href = window.location.href.replace(new RegExp('list$'), 'new');
+	});
+});
+//]]>
+</script>
+
+<h2>Elenco Pagine</h2>
+<div class="row-fluid">
+	<div class="span12">
+		<div class="well" id="jqGridFilters_page">
+			<h4>Filtra la lista:</h4><br />
+		</div>
+	</div>
+</div>
+<div class="row-fluid">
+	<div class="span12">
+		<div class="well forcenochildborder">
+			<table id="jqGrid_page"></table>
+			<div id="jqGridPager_page"></div>
+			<form class="form-actions">
+				<button class="btn btn-info" type="button" id="cmd_new">nuovo</button>
+				<button class="btn btn-primary" type="button" id="cmd_edit">modifica</button>
+				<button class="btn btn-danger" type="button" id="cmd_delete">cancella</button>
+			</form>
+		</div>
+	</div>
+</div>

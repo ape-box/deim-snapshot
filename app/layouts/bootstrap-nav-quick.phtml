@@ -1,0 +1,28 @@
+
+<ul class="nav nav-list">
+	<li class="nav-header">Quick men&ugrave;</li>
+<?php
+	/* @var $_c Zend_Navigation_Page_Mvc */
+	$_c = $this->container;
+
+	while ($_c->valid()):
+		/* @var $item Zend_Navigation_Page_Mvc */
+		$item = $_c->current();
+
+		if ($item->label === '<hr />') : echo '<li><hr /></li>';
+		else :
+		?>
+		<li<?php echo $item->isActive(true) ? ' class="active"':''; ?>>
+			<a  href="<?php echo $item->href ?>" target="<?php echo $item->target ?>"
+				id="<?php echo $item->id ?>" class="<?php echo $item->class ?>"
+				title="<?php echo $this->translate($item->title) ?>"
+			><?php echo $this->translate($item->label) ?></a>
+		</li>
+		<?php
+		endif;
+		$_c->next();
+	endwhile;
+?>
+</ul>
+
+

@@ -1,0 +1,25 @@
+<?php
+	$clean_title = str_replace('"', '', $this->title);
+?>
+<div class="estate_ad_widget_evidence_item span4">
+	<h4><?php echo $this->title ?></h4>
+	<?php
+		$img_width = 184;
+		$img_heigh = (int) ceil($img_width * 0.75);
+		$img_src = "/file/media/{$this->primary_id}/$img_width/$img_heigh?name={$this->primary_name}&sum={$this->primary_md5}";
+		echo "<img class=\"ad_primary\" src=\"$img_src\" width=\"$img_width\" height=\"$img_heigh\" alt=\"$clean_title\"/>";
+	?>
+	<p class="ad_preview"><?php
+		$this->text = strip_tags($this->text);
+		$this->text = Ape_Filter_TextTokenizer::filter($this->text, 128);
+		echo $this->text;
+	?></p>
+	<?php if (!empty($this->price)):?>
+	<p class="ad_price">Prezzo: &euro; <?php echo $this->price ?></p>
+	<?php endif;?>
+	<?php if (!empty($this->ad_code)):?>
+	<p class="ad_code">Codice: <?php echo $this->ad_code ?></p>
+	<?php endif;?>
+	<a class="ad_readmore" href="/estate/ad/detail/id/<?php echo $this->id?>" title="<?php echo $clean_title ?>">Scopri di più &gt;&gt;</a>
+</div>
+

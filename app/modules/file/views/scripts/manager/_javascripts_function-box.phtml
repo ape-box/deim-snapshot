@@ -1,0 +1,227 @@
+
+<script type="text/javascript">
+filemanager = {
+	"_private": {
+		"current_folder": '<?php echo PHP_OS === 'WINNT' ? str_replace('\\', '\\\\', $this->current_folder) : $this->current_folder ?>',
+		"functions_enabled": false,
+		"current_item": null,
+		"items": new Array(),
+		"multiselect": false,
+		"plugin_mode": <?php echo $this->mode === 'plugin' ? 'true' : 'false' ?>
+	},
+	"init": function(){
+		/**
+		 * Bind per il select del file
+		 */
+		jQuery('#filemanager_files_list_frame').delegate('.file_list_element', 'click', function(){
+			var self = jQuery(this);
+
+			if (self.hasClass('selected')) {
+				self.removeClass('selected');
+				filemanager.removeItem(self);
+			} else {
+				if (filemanager._private.plugin_mode) {
+					jQuery('#filemanager_files_list_frame').find('.selected').removeClass('selected');
+				}
+				self.addClass('selected');
+				filemanager.addItem(self);
+			}
+		});
+
+		/**
+		 * Bind per il tasto di "submit"
+		 */
+		jQuery('#cmd_filemanager_select_file').bind('click', function(){
+			filemanager.select_item();
+		});
+
+		jQuery('#cmd_filemanager_rename_file').bind('click', function(){
+			filemanager.renameFile();
+		});
+
+		jQuery('#cmd_filemanager_copy_file').bind('click', function(){
+			filemanager.copyFile();
+		});
+
+		jQuery('#cmd_filemanager_cut_file').bind('click', function(){
+			filemanager.cutFile();
+		});
+
+		jQuery('#cmd_filemanager_paste_file').bind('click', function(){
+			filemanager.pasteFile();
+		});
+
+		jQuery('#cmd_filemanager_delete_file').bind('click', function(){
+			filemanager.deleteFile();
+		});
+
+		jQuery('#cmd_filemanager_upload_file').bind('click', function(){
+			filemanager.uploadFile();
+		});
+
+		jQuery('#cmd_filemanager_create_directory').bind('click', function(){
+			filemanager.createDirectory();
+		});
+
+		jQuery('#cmd_filemanager_rename_directory').bind('click', function(){
+			filemanager.renameDirectory();
+		});
+
+		jQuery('#cmd_filemanager_cut_directory').bind('click', function(){
+			filemanager.cutDirectory();
+		});
+
+		jQuery('#cmd_filemanager_paste_directory').bind('click', function(){
+			filemanager.pasteDirectory();
+		});
+
+		jQuery('#cmd_filemanager_delete_directory').bind('click', function(){
+			filemanager.deleteDirectory();
+		});
+
+
+	},
+	"enable": function(){
+		filemanager._private.functions_enabled = true;
+		jQuery('#filemanager_functions_frame').find('div.disabled').addClass('enabled').removeClass('disabled');
+		return this;
+	},
+	"disable": function(){
+		filemanager._private.functions_enabled = false;
+		jQuery('#filemanager_functions_frame').find('div.enabled').addClass('disabled').removeClass('enabled');
+		return this;
+	},
+	"addItem": function (item) {
+		var key = item.attr('code');
+		if (filemanager._private.multiselect) {
+			filemanager.removeItem(item);
+			filemanager._private.items.push(key);
+		} else {
+			filemanager.clearItems();
+			filemanager._private.items.push(key);
+		}
+		filemanager.enable();
+		return this;
+	},
+	"removeItem": function (item) {
+		var key = item.attr('code');
+		for (var i=0;i<filemanager._private.items.length;i++) {
+			var _item = filemanager._private.items.pop();
+			if (_item !== key) filemanager._private.items.unshift(_item);
+		}
+		if (filemanager._private.items.length === 0) filemanager.disable();
+		return this;
+	},
+	"clearItems": function () {
+		filemanager._private.items = new Array();
+		filemanager.disable();
+		return this;
+	},
+	"select_item": function () {
+		if (filemanager._private.plugin_mode)
+		{
+			if ( filemanager._private.functions_enabled !== true || filemanager._private.items.length === 0) {
+				return tinyMCEPopup.close();
+			}
+
+			var path = filemanager._private.current_folder;
+			if (path.charAt(path.length-1) !== '/') path += '/';
+			path += filemanager._private.items[0];
+			var URL = "/file/index/get/?path="+path;
+			var _window = tinyMCEPopup.getWindowArg("window");
+			if (_window !== undefined) {
+				_window.document.getElementById(tinyMCEPopup.getWindowArg("input")).value = URL;
+				if (_window.ImageDialog !== undefined)
+				{
+					if (_window.ImageDialog.getImageData) _window.ImageDialog.getImageData();
+					if (_window.ImageDialog.showPreviewImage) _window.ImageDialog.showPreviewImage(URL);
+				}
+			} else {
+				var input = tinyMCEPopup.getWindowArg("input");
+				var _win = tinyMCEPopup.getWindowArg("window");
+				var target = '#'+input;
+				_win.document.getElementById(target).value = URL;
+			}
+			tinyMCEPopup.close();
+		} else {
+			if ( filemanager._private.functions_enabled !== true || filemanager._private.items.length === 0) {
+				return ;
+			}
+			var path = filemanager._private.current_folder;
+			if (path.charAt(path.length-1) !== '/') path += '/';
+			path += filemanager._private.items[0];
+			var URL = "/file/index/get/?path="+path;
+			alert("L'indirizzo del file è:\r\n"+URL);
+		}
+	},
+	"renameFile": function() {
+		if ( filemanager._private.functions_enabled && filemanager._private.items.length > 0) {
+			var from = filemanager._private.items[0].split('.');
+			var ext = from.pop();
+				from = from.join('.');
+			var to = prompt('Inserisci il nuovo nome', from);
+			if (to !== null) {
+				to = to.toLowerCase().replace(new RegExp('[^A-Za-z0-9-_]+','gm'), '-').replace('--','-');
+				to = to+'.'+ext;
+				from = from+'.'+ext;
+				window.location.replace("<?php echo $this->url(array('action'=>'rename-file')).'?folder=' ?>"+filemanager._private.current_folder+"&from="+from+"&to="+to);
+			}
+		}
+		return this;
+	},
+	"copyFile": function() {
+		if ( filemanager._private.functions_enabled && filemanager._private.items.length > 0) {
+			var file = filemanager._private.items[0];
+			window.location.replace("<?php echo $this->url(array('action'=>'copy-file')).'?folder=' ?>"+filemanager._private.current_folder+"&file="+file);
+		}
+	},
+	"cutFile": function() {
+		if ( filemanager._private.functions_enabled && filemanager._private.items.length > 0) {
+			var file = filemanager._private.items[0];
+			window.location.replace("<?php echo $this->url(array('action'=>'rename-file')).'?folder=' ?>"+filemanager._private.current_folder+"&file="+file);
+		}
+	},
+	"pasteFile": function() {
+		window.location.replace("<?php echo $this->url(array('action'=>'paste-file')).'?folder=' ?>"+filemanager._private.current_folder);
+	},
+	"deleteFile": function() {
+		if ( filemanager._private.functions_enabled && filemanager._private.items.length > 0) {
+			var file = filemanager._private.items[0];
+			window.location.replace("<?php echo $this->url(array('action'=>'delete-file')).'?folder=' ?>"+filemanager._private.current_folder+"&file="+file);
+		}
+	},
+	"uploadFile": function() {
+		window.location.replace("<?php echo $this->url(array('action'=>'upload-file')).'?folder=' ?>"+filemanager._private.current_folder);
+	},
+	"createDirectory": function() {
+		var name = prompt('Inserisci il nome');
+		if (name !== null) {
+			window.location.replace("<?php echo $this->url(array('action'=>'create-directory')).'?folder=' ?>"+filemanager._private.current_folder+"&name="+name);
+		}
+	},
+	"renameDirectory": function() {
+		var from = filemanager._private.current_folder;
+		var to = prompt('Inserisci il nome');
+		if (to !== null) {
+			window.location.replace("<?php echo $this->url(array('action'=>'rename-directory')).'?folder=' ?>"+filemanager._private.current_folder+"&to="+to);
+		}
+	},
+	"cutDirectory": function() {
+		window.location.replace("<?php echo $this->url(array('action'=>'cut-directory')).'?folder=' ?>"+filemanager._private.current_folder);
+	},
+	"pasteDirectory": function() {
+		window.location.replace("<?php echo $this->url(array('action'=>'paste-directory')).'?folder=' ?>"+filemanager._private.current_folder);
+	},
+	"deleteDirectory": function() {
+		window.location.replace("<?php echo $this->url(array('action'=>'delete-directory')).'?folder=' ?>"+filemanager._private.current_folder);
+	}
+}
+
+if (filemanager._private.plugin_mode) {
+	tinyMCEPopup.onInit.add(filemanager.init, filemanager);
+} else {
+	jQuery(function(){
+		filemanager.init();
+	});
+}
+</script>

@@ -1,0 +1,13 @@
+
+<div class="estate_ad_widget_evidence row-fluid">
+<?php
+	$c = 0;
+	$p = true;
+	foreach ($this->list as $ad)
+	{
+		if ($c++%3 == 0 AND !$p) echo '</div><div class="estate_ad_widget_evidence row-fluid">';
+		echo $this->partial('estate/views/partials/ad/widget_evidenced_item.phtml', $ad);
+		$p = false;
+	}
+?>
+</div>

@@ -1,0 +1,10 @@
+<?php 
+    if ($this->separator) echo '<span> &raquo; </span>'; 
+    if (empty($this->url)):
+?>
+    <span><?php echo $this->label ?></span>
+<?php else: ?>
+    <a href="<?php echo $this->url ?>" title="<?php echo $this->label ?>"><?php echo $this->label ?></a>
+<?php endif; ?>
+
+

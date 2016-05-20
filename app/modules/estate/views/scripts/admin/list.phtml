@@ -1,0 +1,120 @@
+<?php
+	$this->headLink()->appendStylesheet('/pub/jquery.jqGrid-3.8.2/css/ui.jqgrid.css');
+	$this->headScript()->appendFile('/pub/jquery.jqGrid-3.8.2/js/i18n/grid.locale-it.js', 'text/javascript');
+	$this->headScript()->appendFile('/pub/jquery.jqGrid-3.8.2/js/jquery.jqGrid.min.js', 'text/javascript');
+?>
+
+<script type="text/javascript">
+//<![CDATA[
+jQuery(document).ready(function() {
+	jQuery("#jqGrid_estate").jqGrid({
+		"autowidth":false,
+		"width":900,
+		"caption":"Estate AD List",
+		"hidegrid":false,
+		"colNames":[],
+		"colModel":[
+			{"name":"title","label":"Titolo","align":"left","width":230},
+			{"name":"ad_code","label":"Codice annuncio","align":"left","width":130},
+			{"name":"date","label":"data","align":"center","width":130,"fixed":true,"search":false,"editrules":{"date":true},"datefmt":<?php echo json_encode('d/m/Y') /*"d\/m\/Y"*/?>,"editoptions":{"dataInit":function(elem) { jQuery(elem).datepicker(); }},"formatter":"date","sorttype":"date"},
+			{"name":"pub","label":"publicato","align":"center","width":130,"fixed":true,"search":false,"formatter":"checkbox"},
+			{"name":"evidence","label":"evidenza","align":"center","width":130,"fixed":true,"search":false,"formatter":"checkbox"},
+			{"name":"locale","label":"Lingua","hidden":true,"align":"center","width":100,"fixed":true,"edittype":"select","editoptions":{"value":"it_IT:Italiano"},"formatter":"select"}
+		],
+		"datatype":"json",
+		"footerrow":false,
+		"userDataOnFooter":false,
+		"forceFit":true,
+		"shreinkToFit":true,
+		"gridview":true,
+		"height":"100%",
+		"hoverrows":true,
+		"jsonReader":{"root":"rows","page":"currpage","total":"totalpages","records":"totalrecords","repeatitems":false,"id":"id"},
+		"mtype":"post",
+		"multiboxonly":true,
+		"multiselect":true,
+		"pager":"jqGridPager_estate",
+		"resizeclass":"resizable",
+		"rowList":[20,50,100],
+		"rowNum":20,
+		"viewrecords":true,
+		"viewsortcols":[true,"vertical",true],
+		"url":<?php echo json_encode('/estate/admin/load-list') /*"\/estate\/admin\/load-list\/type\/estate"*/?>,
+		"editurl":<?php echo json_encode('/estate/admin/save') /*"\/estate\/admin\/save\/type\/estate"*/?>,
+		"onSelectRow":function(id){
+			if(id && id!==lastSel){
+				jQuery(this).saveRow(lastSel);
+				lastSel=id;
+			}
+			jQuery(this).editRow(id,true);
+		},
+		"loadComplete":function(){},
+		"ondblClickRow":function(row_id, index_row, index_col, event_obj){
+			row = jQuery(this).getRowData(row_id);
+			window.location.href = '/estate/admin/edit/id/' + escape(row_id) + '/locale/' + escape(row['locale']);
+		},
+		"sortname":"date",
+		"sortorder":"desc"
+	});
+	var lastSel;
+	jQuery("#jqGrid_estate").disableSelection();
+	jQuery("#jqGridFilters_estate").jqGrid("filterGrid", "jqGrid_estate", {
+		"gridModel":true,
+		"gridNames":true,
+		"filterModel":[],
+		"formtype":"horizontal",
+		"autosearch":true,
+		"formclass":"filterform",
+		"tableclass":"filtertable ui-state-default",
+		"buttonclass":"filterbutton btn",
+		"searchButton":"Cerca",
+		"clearButton":"Annulla",
+		"enableSearch":true,
+		"enableClear":true,
+		"marksearched":true
+	});
+
+	jQuery("#cmd_delete").click(function(){
+		var gr = jQuery("#jqGrid_estate").jqGrid('getGridParam','selarrrow');
+		if( gr.length > 0 )
+			jQuery("#jqGrid_estate").jqGrid('delGridRow',gr,{url : '/estate/admin/delete'});
+		else
+			alert("Seleziona uno o più elementi da cancellare.");
+	});
+
+	jQuery('#cmd_edit').click(function(){
+		var gr = jQuery("#jqGrid_estate").jqGrid('getGridParam','selrow');
+		if( gr!=null )
+			window.location.href = '/estate/admin/edit' + /id/ + gr;
+		else
+			alert("Seleziona una riga da modificare..");
+	});
+
+	jQuery('#cmd_new').click(function(){
+		window.location.href = window.location.href.replace(new RegExp('list$'), 'new');
+	});
+});
+//]]>
+</script>
+
+<h2>Elenco Annunci</h2>
+<div class="row-fluid">
+	<div class="span12">
+		<div class="well" id="jqGridFilters_estate">
+			<h4>Filtra la lista:</h4><br />
+		</div>
+	</div>
+</div>
+<div class="row-fluid">
+	<div class="span12">
+		<div class="well forcenochildborder">
+			<table id="jqGrid_estate"></table>
+			<div id="jqGridPager_estate"></div>
+			<form class="form-actions">
+				<button class="btn btn-info" type="button" id="cmd_new">nuovo</button>
+				<button class="btn btn-primary" type="button" id="cmd_edit">modifica</button>
+				<button class="btn btn-danger" type="button" id="cmd_delete">cancella</button>
+			</form>
+		</div>
+	</div>
+</div>

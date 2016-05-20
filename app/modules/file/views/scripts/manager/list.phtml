@@ -1,0 +1,140 @@
+<?php if ($this->mode === 'plugin'):?>
+<script type="text/javascript" src="/pub/tinymce/tiny_mce_popup.js"></script>
+<?php endif; ?>
+<script type="text/javascript" src="/pub/jquery-1.7.1.min.js"></script>
+<script type="text/javascript" src="/pub/jquery-ui-1.8.16/js/jquery-ui-1.8.16.custom.min.js"></script>
+<script type="text/javascript" src="/pub/json2.js"></script>
+<style>
+<!--
+<?php
+	/**
+	 * Il window manager di Tiny MCE da problemi con i css
+	 * eventualmente caricare il css nell'header durante il rendering del Tiny
+	 */
+	include APPLICATION_PATH.'/../pub/jquery-ui-1.8.16/css/redmond/jquery-ui-1.8.16.custom.css';
+	include APPLICATION_PATH.'/../pub/fonts/latin-modern.css';
+	include APPLICATION_PATH.'/../pub/css/filemanager_frames.css';
+?>
+-->
+</style>
+<?php
+	echo $this->partial('manager/_javascripts_list.phtml', array(
+		'current_folder' => $this->folder,
+		'mode' => $this->mode
+	));
+?>
+
+<?php if (count($this->errors) > 0):?>
+<script type="text/javascript">
+jQuery(function(){
+	var errors = <?php echo json_encode($this->errors) ?>;
+	var msgs = '';
+	for (n in errors) {
+		msgs += errors[n]+"\r\n";
+	}
+	window.alert(msgs);
+});
+</script>
+<?php endif;?>
+
+<table id="filemanager_window_frame">
+	<tr class="title_row">
+		<td colspan="2"><h1>Current Folder : "<?php echo $this->folder ?>"</h1></td>
+	</tr>
+	<tr class="content_row">
+		<td id="filemanager_directories_list_frame">
+			<h2>Lista Directory</h2>
+			<?php
+				if ($this->folder !== '/') {
+					$uri = $this->url(array('mode'=>$this->mode)).'?folder=:FOLDER';
+					$label = 'back ...';
+					$folder = $this->folder;
+					$folder = trim($folder, '/');
+					$folder = explode('/', $folder);
+					array_pop($folder);
+					$folder = '/'.implode('/', $folder);
+					$backlink = '<a href=":URI" target="_self" class="directory_list_element">:LABEL</a>';
+					$backlink = str_replace(':URI', $uri, $backlink);
+					$backlink = str_replace(':LABEL', $label, $backlink);
+					$backlink = str_replace(':FOLDER', $folder, $backlink);
+					echo $backlink;
+				}
+			?>
+			<?php foreach($this->directories as $name):?>
+				<a href="<?php echo $this->url(array('mode'=>$this->mode)) ?>?folder=<?php echo urlencode("{$this->folder}/{$name}") ?>" target="_self"
+					class="directory_list_element"><?php echo $name ?></a>
+			<?php endforeach; ?>
+			<div id="filemanager_functions_frame">
+				<h2>Functions box</h2>
+				<h3>Files</h3>
+				<div id="cmd_filemanager_select_file" class="file disabled">Seleziona</div>
+				<div id="cmd_filemanager_rename_file" class="file disabled">Rinomina</div>
+				<div id="cmd_filemanager_copy_file" class="file disabled">Copia</div>
+				<div id="cmd_filemanager_cut_file" class="file disabled">Taglia</div>
+				<?php if (file_models_File_Clipboard::getInstance()->getClipboard_is_file() === true): ?>
+				<div id="cmd_filemanager_paste_file" class="file">Incolla</div>
+				<?php endif;?>
+				<div id="cmd_filemanager_delete_file" class="file disabled">Cancella</div>
+				<div id="cmd_filemanager_upload_file" class="file">Upload</div>
+				<h3>Directories</h3>
+				<div id="cmd_filemanager_create_directory" class="directory">Nuova Cartella</div>
+				<?php if ($this->folder !== '/'):?>
+					<div id="cmd_filemanager_rename_directory" class="directory">Rinomina [<?php echo preg_replace('#.*/(.*)/$#', '$1', $this->folder) ?>]</div>
+					<div id="cmd_filemanager_cut_directory" class="directory">Taglia [<?php echo preg_replace('#.*/(.*)/$#', '$1', $this->folder) ?>]</div>
+					<?php if (file_models_File_Clipboard::getInstance()->getClipboard_is_dir() === true): ?>
+					<div id="cmd_filemanager_paste_directory" class="directory">Incolla</div>
+					<?php endif;?>
+					<div id="cmd_filemanager_delete_directory" class="directory">Cancella [<?php echo preg_replace('#.*/(.*)/$#', '$1', $this->folder) ?>]</div>
+				<?php endif; ?>
+			</div>
+		</td>
+		<td id="filemanager_files_list_frame">
+			<h2>Lista Files</h2>
+			<?php foreach($this->files as $name):?>
+				<p class="file_list_element<?php
+					switch (strtolower(pathinfo($name, PATHINFO_EXTENSION)))
+					{
+						case 'pdf':
+							echo ' mime-pdf';
+							break;
+						case 'doc':
+						case 'docx':
+						case 'html':
+						case 'htm':
+						case 'xls':
+						case 'xlsx':
+						case 'ppt':
+						case 'pptx':
+						case 'odt':
+							echo ' mime-document';
+							break;
+						case 'jpg':
+						case 'jpeg':
+						case 'gif':
+						case 'png':
+							echo ' mime-image';
+							break;
+						case 'zip':
+						case 'rar':
+						case 'tgz':
+						case 'gz':
+						case 'bz2':
+						case 'bz':
+						case 'tar':
+						case 'ace':
+							echo ' mime-zip';
+							break;
+						case 'avi':
+						case 'flw':
+						case 'wmf':
+							echo ' mime-video';
+							break;
+						default:
+							echo ' mime-generic';
+							break;
+					}
+				?>" code="<?php echo $name/*urlencode(base64_encode($name))*/ ?>"><?php echo $name ?></p>
+			<?php endforeach; ?>
+		</td>
+	</tr>
+</table>

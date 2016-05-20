@@ -1,0 +1,46 @@
+
+<ul class="nav">
+<?php
+	/* @var $_c Zend_Navigation_Page_Mvc */
+	$_c = $this->container;
+
+	while ($_c->valid()):
+		/* @var $item Zend_Navigation_Page_Mvc */
+		$item = $_c->current();
+
+		$rel = implode(' ', $item->rel);
+		$rel = trim($rel);
+		$rel = empty($rel) ? '' : "rel=\"$rel\"";
+
+		$rev = implode(' ', $item->rev);
+		$rev = trim($rev);
+		$rev = empty($rev) ? '' : "rev=\"$rev\"";
+
+	?>
+	<li<?php echo $item->isActive(true) ? ' class="active"':''; ?>>
+		<a  href="<?php echo $item->href ?>" target="<?php echo $item->target ?>"
+			id="<?php echo $item->id ?>" class="<?php echo $item->class; if ($item->hasChildren()):?> dropdown-toggle" data-toggle="dropdown<?php endif;?>"
+			title="<?php echo $this->translate($item->title) ?>"
+		><?php echo $this->translate($item->label)?></a>
+		<?php
+			/* @var $item Zend_Navigation_Page_Mvc */
+			if ($item->hasChildren()) {
+				/* @var $child Zend_Navigation_Page_Mvc */
+				$child = $item->getChildren();
+				echo '<ul class="dropdown-menu">';
+				while ($child->valid()){
+					$itm = $child->current();
+					$title = $this->translate($itm->title);
+					echo "<li><a href=\"{$itm->href}\" title=\"{$title}\">{$itm->label}</a></li>";
+					$child->next();
+				}
+				echo '</ul>';
+			}
+		?>
+	</li>
+	<?php
+		$_c->next();
+	endwhile;
+?>
+	<li><a href="/login/log-off">Esci</a></li>
+</ul>
